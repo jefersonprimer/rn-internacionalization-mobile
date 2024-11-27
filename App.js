@@ -1,6 +1,23 @@
+import { useState } from 'react';
 import { SafeAreaView, StyleSheet, Text, View, TouchableOpacity, StatusBar, Image} from 'react-native';
+import './src/utils/i18n'
+import { useTranslation } from 'react-i18next'
 
 export default function App() {
+  const [currentLanguage, setCurrentLanguage] = useState('en'); 
+
+  const {t, i18n} = useTranslation();
+
+  const changeLanguage = value => {
+    i18n.changeLanguage(value)
+    .then( () => {
+      setCurrentLanguage(value);
+    }) 
+    .catch( (err) => {
+      console.log(err);
+    })
+  }
+
   return (
     <SafeAreaView style={styles.container}>
      <StatusBar barStyle={'light-content'} backgroundColor="#141A31" />
@@ -8,10 +25,10 @@ export default function App() {
       <View style={styles.languages}>
 
         <TouchableOpacity 
-          onPress={() => {} }
+          onPress={() => changeLanguage('en') }
           style={[
             styles.langButton, {
-            borderColor: '#037CFC',
+            borderColor: currentLanguage === 'en' ? '#037CFC' : 'transparent',
             }
           ]}
         >
@@ -19,10 +36,10 @@ export default function App() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={() => {} }
+          onPress={() => changeLanguage('pt') }
           style={[
             styles.langButton, {
-              borderColor: '#037CFC',
+              borderColor: currentLanguage === 'pt' ? '#037CFC' : 'transparent',
             }
           ]}
         >
@@ -38,22 +55,22 @@ export default function App() {
       />
 
       <Text style={styles.title}>
-        Seja bem vindo
+        {t('Seja bem vindo')}
       </Text>
 
       <Text style={styles.title}>
-        ao seu app de filmes
+        {t('ao seu app de filmes')}
       </Text>
 
       <TouchableOpacity style={styles.button}>
         <Text style={styles.buttonText}>
-          Acessar
+          {t('Acessar')}
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.linkButton}>
         <Text style={styles.linkText}>
-          Criar uma nova conta
+          {t('Criar uma nova conta')}
         </Text>
       </TouchableOpacity>
       
