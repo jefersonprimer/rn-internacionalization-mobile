@@ -1,0 +1,26 @@
+name: Continuos Integration #dou um nome para o meu ci , pode ser qualquer nome
+
+on: pull_request #ou se quiser mais de um, como pull e push vai ser assim [push, pull_request] ou mais ainda [push, pull_request, issues, issues_comment]
+
+#se eu quiser ser mais especifico ainda
+# on: 
+#   pull_request:
+#     branches: 
+#       ['master']
+
+#declarar os jobs desse workflow
+jobs:
+  continuos-integration: #dou um nome para o meu job
+    runs-on: ubuntu-latest #especifico a maquina que o github vai usar
+
+    steps: #agora defino os passos que vai ser seguido
+      - uses: actions/checkout@v3
+      - name: Using Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.
+      - name: run install, build and test
+        run: |
+          npm install
+          npm run build
+          npm run test
